@@ -1,0 +1,12 @@
+{
+  "_说明": "渲染配置示例，放在项目目录下并改名为 render_config.json。所有字段可选，未填用默认值。",
+  "src_dir": "src",
+  "out_name": "成片.mp4",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "gold_sec": 5,
+  "font": "Microsoft YaHei",
+  "font_size": 64,
+  "tail_cut": 0
+}

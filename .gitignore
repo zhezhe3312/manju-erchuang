@@ -1,0 +1,45 @@
+# 素材与产物（体积大、可能含版权内容，绝不入库）
+待分析视频/
+分析输出/
+发布包/
+_skill_build/
+_verify_sdk/
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.flv
+*.webm
+*.aac
+*.wav
+*.m4a
+*.flac
+
+# 隐私与配置
+.env
+.env.*
+*.local
+*.key
+*.pem
+*.p12
+secrets.*
+config.local.json
+*.sharecode
+
+# 缓存与临时文件
+__pycache__/
+*.py[cod]
+*.egg-info/
+node_modules/
+.cache/
+*.log
+*.tmp
+*.part
+.DS_Store
+Thumbs.db
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+*.swo

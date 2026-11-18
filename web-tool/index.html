@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="kjifc5Ef8oBrS9yG5ziVDV">
+<head data-page-node-id="3V0jozorFSxOA8ITyGVZK4">
+<meta charset="UTF-8" data-page-node-id="cBxCzJPtb62H0WuBT6v3dm">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="TDIdA8EH0a9aT9LvOVVgkw">
+<title>漫剧二创 · 爆点分析工具箱</title>
+<style>
+  :root{
+    --bg:#eef1f6; --card:#ffffff; --ink:#1a1f2b; --ink2:#647084;
+    --line:#e3e8f0; --red:#b3392f; --red-soft:#fbeeec; --gold:#b8892b;
+    --gold-soft:#fbf4e4; --blue:#2f5d8a; --blue-soft:#eaf1f8; --green:#2f7a55;
+    --shadow:0 1px 3px rgba(20,30,50,.06),0 6px 20px rgba(20,30,50,.05);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+    line-height:1.6;padding:0 0 60px}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+
+  header{background:linear-gradient(135deg,#7d2b24,#b3392f 55%,#c65a3a);
+    color:#fff;padding:40px 0 34px;box-shadow:var(--shadow)}
+  header .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:15px}
+  .logo{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.16);
+    display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3);flex-shrink:0}
+  .logo svg{width:32px;height:32px}
+  h1{font-size:24px;letter-spacing:.5px;font-weight:700}
+  .brand p{opacity:.92;font-size:13.5px;margin-top:4px;max-width:560px}
+  .badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+    padding:8px 16px;border-radius:20px;font-size:12.5px;white-space:nowrap}
+
+  nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 20px}
+  nav a{color:var(--ink2);text-decoration:none;font-size:13px;padding:7px 14px;
+    border-radius:8px;white-space:nowrap;transition:.15s}
+  nav a:hover{background:var(--red-soft);color:var(--red)}
+
+  section{margin-top:34px;scroll-margin-top:62px}
+  .sec-h{display:flex;align-items:center;gap:11px;margin-bottom:16px;flex-wrap:wrap}
+  .sec-h .n{width:28px;height:28px;border-radius:8px;background:var(--red);color:#fff;
+    font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .sec-h h2{font-size:19px;font-weight:700}
+  .sec-h .sub{font-size:12.5px;color:var(--ink2);margin-left:auto}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow)}
+  .grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+  /* 评分器 */
+  .calc-row{display:grid;grid-template-columns:88px 1fr 34px 44px;align-items:center;gap:10px;margin-bottom:14px}
+  .calc-row label{font-size:13.5px;font-weight:600}
+  .calc-row input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
+  .calc-row .val{font-weight:700;font-size:15px;text-align:center;color:var(--red)}
+  .calc-row .wt{font-size:11px;color:var(--ink2);text-align:right}
+  .switch{display:flex;align-items:center;gap:9px;margin:6px 0 18px;font-size:13px;color:var(--ink2)}
+  .switch input{width:16px;height:16px;accent-color:var(--red)}
+  .result{text-align:center;padding:14px;border-radius:12px;background:var(--bg)}
+  .result .total{font-size:44px;font-weight:800;color:var(--red);line-height:1.1}
+  .result .total small{font-size:16px;color:var(--ink2);font-weight:500}
+  .grade{display:inline-block;margin-top:10px;padding:5px 18px;border-radius:20px;
+    font-weight:700;font-size:14px;background:var(--line);color:var(--ink2)}
+  .gS{background:#fdecea;color:#b3392f}.gA{background:#fbf4e4;color:#a5761c}
+  .gB{background:#eaf1f8;color:#2f5d8a}.gX{background:#eef1f6;color:#7a8699}
+  .usage{font-size:12.5px;color:var(--ink2);margin-top:9px}
+  .dims-note{font-size:12.5px;color:var(--ink2);line-height:1.9}
+  .dims-note b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--ink2);font-weight:600;font-size:12px;background:var(--bg)}
+  td b{color:var(--ink)}
+  .note{font-size:12.5px;color:var(--ink2);background:var(--gold-soft);
+    border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 8px 8px 0;margin-top:14px;line-height:1.75}
+
+  /* 提示词 */
+  .prompt-item{border:1px solid var(--line);border-radius:11px;padding:15px 17px;margin-bottom:12px;background:var(--card)}
+  .prompt-item h4{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:8px}
+  .prompt-item p{font-size:12.5px;color:var(--ink2);line-height:1.75;white-space:pre-wrap}
+  .mini-btn{border:1px solid var(--red);color:var(--red);background:#fff;border-radius:7px;
+    padding:4px 13px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+  .mini-btn:hover{background:var(--red);color:#fff}
+
+  /* 工作流 */
+  .flowline{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:6px}
+  .flownode{background:var(--blue-soft);color:var(--blue);border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:600}
+  .flowarr{color:var(--gold);font-weight:700}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px;margin-top:4px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .step .sn{width:26px;height:26px;border-radius:8px;background:var(--red-soft);color:var(--red);
+    font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .step h4{font-size:14px;margin-bottom:7px}
+  .step p{font-size:12.5px;color:var(--ink2);line-height:1.7}
+
+  .cta{background:linear-gradient(135deg,#7d2b24,#b3392f);color:#fff;border-radius:16px;
+    padding:26px 28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .cta h3{font-size:18px;margin-bottom:6px}
+  .cta p{font-size:13px;opacity:.92;max-width:560px}
+  .cta code{background:rgba(255,255,255,.16);padding:2px 8px;border-radius:5px;font-size:12px}
+  .tag{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    padding:6px 14px;border-radius:20px;font-size:12px}
+
+  footer{text-align:center;color:var(--ink2);font-size:12px;margin-top:40px;line-height:1.9}
+
+  .toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:11px 24px;border-radius:9px;font-size:13px;
+    opacity:0;pointer-events:none;transition:.25s;z-index:99}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body data-page-node-id="m57NAUth37tfTmE7RRKRgm">
+
+<header data-page-node-id="BECmkyKd6hr5a0LXFxPNVK">
+  <div class="wrap" data-page-node-id="IrCwoKFAp0Io5BQjGkZgkP">
+    <div class="brand" data-page-node-id="5FNMBAaMURYBxkeyCGr3tN">
+      <div class="logo" data-page-node-id="5IBX7plOPdcV9XUns9WQH2"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" data-page-node-id="H1gIPOWSjnGZWnXO2OhQsW"><rect x="3" y="4" width="18" height="16" rx="2" data-page-node-id="ddJdFDBW5wfvuUse6rWXF1"/><path d="M3 9h18M8 4v5M16 4v5M8 13l8 3-8 3z" fill="#fff" stroke="none" data-page-node-id="Brc8CKxVUtijP4J7pywuJy"/></svg></div>
+      <div data-page-node-id="5ejaIYlTxGMbXpHKZLcHxT">
+        <h1 data-page-node-id="ZWJVkW6RvpTs3tOYeXWe5J">漫剧二创 · 爆点分析工具箱</h1>
+        <p data-page-node-id="rvBvWTpVUJtUFzEpg7EDTE">给官方免费漫剧/短剧做二创混剪？用五维模型找爆点、一键复制爆款提示词、看懂整集连播的完整流程。</p>
+      </div>
+    </div>
+    <div class="badge" data-page-node-id="tDjyNZMjqnHt3MzLiWRzw4">免费在线 · 无需登录</div>
+  </div>
+</header>
+
+<nav data-page-node-id="hhDaQEBHF4nihytK9TBSUv"><div class="wrap" data-page-node-id="8SDzDY9UzZ1vX37UC7JhVZ">
+  <a href="#calc" data-page-node-id="7XFQmn7s6A7VZke0b7rE3u">爆点评分器</a>
+  <a href="#prompts" data-page-node-id="N7PQeWcPTNKZBrJ97cHmpC">提示词库</a>
+  <a href="#model" data-page-node-id="RaTT243FH2MA4iNSe9BFxV">五维模型</a>
+  <a href="#flow" data-page-node-id="ft0RYh2v9kKkxCREimQ0TV">工作流</a>
+  <a href="#start" data-page-node-id="zFy8MhkkL7aHF6BwOUnvB2">如何开工</a>
+</div></nav>
+
+<div class="wrap" data-page-node-id="HlKCXe256nUi0pyKLE3sLW">
+
+  <section id="calc" data-page-node-id="xIJj2ssRgg8MttEMkj4Z5o">
+    <div class="sec-h" data-page-node-id="MtZPhb7eZdM4DRHamSwb4M"><span class="n" data-page-node-id="kLx8wR7OHEekQ7mXv7EmpG">1</span><h2 data-page-node-id="nUnHk6t863WhpAY1jxOA9P">五维爆点评分器</h2><span class="sub" data-page-node-id="w07NlmEckW23sigJXg1NQQ">拖动打分，实时算等级</span></div>
+    <div class="grid2" data-page-node-id="MZaNwUmq3SFOlaAPBKMc8t">
+      <div class="panel" data-page-node-id="KYePZQzxaVRFHfLY2WOXXM">
+        <div id="calcSliders" data-page-node-id="Y23Nwx1ibP0E1UfSaDGZvN"></div>
+        <label class="switch" data-page-node-id="tdOA7Za44L8KHADQeGlWnh"><input type="checkbox" id="noNar" data-page-node-id="CcIrzhGZiZKufvAmI43deV"> 无解说模式（视觉/节奏权重微调）</label>
+        <div class="dims-note" data-page-node-id="aOXmn09lUHIudtd7eRzlZF">
+          <b data-page-node-id="ql54whQt4nDpqGonp5sccv">怎么用：</b>看一段候选剧情，按五个维度各打 1–5 分，工具自动算总分和等级。<br data-page-node-id="TpycC8Rb8rufOkAMPhZsha">
+          <b data-page-node-id="4bU17IHVhbFMWa3p29V2Bm">S 级 ≥4.2</b> 做开头钩子或最高潮；<b data-page-node-id="J5zVYlPMHXlL74nRcxTlEE">A 级 3.5–4.2</b> 是卡点主力；<b data-page-node-id="iRlH5f547SxDQeaimpbZpC">B 级</b> 做铺垫；低于 3.0 淘汰。
+        </div>
+      </div>
+      <div class="panel" data-page-node-id="6hsEJrATsvQGctivLxaEiC">
+        <div class="result" data-page-node-id="1Ghl2x7yaw19yXPiO7nSFP">
+          <div class="total" id="calcTotal" data-page-node-id="qvNOLuswEMXWcdyMrKIPky">3.50<small data-page-node-id="zw7emavL6qFuZgOXlDnV7d"> / 5.00</small></div>
+          <span class="grade" id="calcGrade" data-page-node-id="y6Zu5D28ygBbjt5xawSF5G">A 级</span>
+          <div class="usage" id="calcUsage" data-page-node-id="LCFSnSVj8Th02TFXcStNGx">高燃卡点连切主力</div>
+        </div>
+        <div class="note" data-page-node-id="7cD7J1VZSTp9U7H1rvV7Os">无解说模式 = 原片台词 + BGM + 字幕金句，不做 AI 配音。这是目前最适合漫剧二创的形态，剧情连贯、制作轻。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prompts" data-page-node-id="gdtG5DHHC5XQbrQMn6Wp0g">
+    <div class="sec-h" data-page-node-id="H5nJzqn7S2EXDSwErc2WwO"><span class="n" data-page-node-id="VE1FzTY0vPkOnWWCYExOhj">2</span><h2 data-page-node-id="cwhyKCdFPpdO1C8yUOh34z">爆款提示词库</h2><span class="sub" data-page-node-id="DiIMbkLtUGsjlA3T4JwG0c">点复制，粘贴到任意 AI</span></div>
+    <div class="panel" id="promptList" data-page-node-id="kvhV7MxQxAnIRYwHVN3kWa"></div>
+  </section>
+
+  <section id="model" data-page-node-id="jkoEg3auE4hVJJGoOMc4yx">
+    <div class="sec-h" data-page-node-id="xR2y2xZznOX7a38n44ruWn"><span class="n" data-page-node-id="1V5SkgnKCE14NmnEZuxBUS">3</span><h2 data-page-node-id="aMP0rs62hushyTjehdoCGS">五维爆点模型</h2><span class="sub" data-page-node-id="QkKEAlhMKIBYnOZazSqXLU">找爆点的判断标准</span></div>
+    <div class="panel" data-page-node-id="txWcSlgIgVKCN4kNAtpkSY">
+      <table data-page-node-id="UHn19wUe1ex3BsXnkBEtM6">
+        <thead data-page-node-id="fqNq8PbqpSbJBIP0p7iI7x"><tr data-page-node-id="jlb4wVHPN7YproUa3D0VIe"><th style="width:110px" data-page-node-id="DL0FxXYbBbDCaVmozJYZVK">维度</th><th style="width:70px" data-page-node-id="gDmeO3Qc1T6RUVFHQilHkr">权重</th><th data-page-node-id="E30KwuRFKh7BHDPKAFYOAm">判断标准</th></tr></thead>
+        <tbody data-page-node-id="reQBsQBqvCDpbqtrKpFBw5">
+          <tr data-page-node-id="l6qTiAs2erQpBF2io7Rnil"><td data-page-node-id="CGvmgyRmBYsZthRMsoMR1V"><b data-page-node-id="Gau7kTFcRYJupGvf5feFCm">情绪峰值</b></td><td data-page-node-id="XfpgonfoAdC5fxbMMj0lJF">30%</td><td data-page-node-id="m23xTqT7ytBiWQkffiF3vB">角色哭 / 怒 / 爽 / 反转 / 打脸的情绪张力</td></tr>
+          <tr data-page-node-id="EiBruBvY0O743c3HYR2zTV"><td data-page-node-id="r5r9SuKZrnTDnZaIjI7stT"><b data-page-node-id="0WoVAXfL340OSKo9AptBxU">悬念钩子</b></td><td data-page-node-id="qUXhYKL1SNMAfswYUgmB42">25%</td><td data-page-node-id="Z7DGC5OlgnGAhLgF6dCADZ">前 3 秒能否制造"然后呢"的追看欲</td></tr>
+          <tr data-page-node-id="4SrAScvu7HqFAlVydq4ot8"><td data-page-node-id="IMDFFZEBkHxAFWog3b7riu"><b data-page-node-id="Dbojq323bESy4zmFIlL4YE">视觉冲击</b></td><td data-page-node-id="tw8x75EcqoZ45cNYgHkxg2">20%</td><td data-page-node-id="wAls8SA80BeitQTWc5BEWx">大场面 / 特效 / 快动作 / 特写</td></tr>
+          <tr data-page-node-id="8asZTo03tFkiN7x6nYydBy"><td data-page-node-id="Kbu78FHMD02Z9Wq0D6eyy7"><b data-page-node-id="YuOOr3Kb3CBg8OR1ithMQQ">节奏卡点</b></td><td data-page-node-id="22FzUnyXyviR9PXimWOQ0B">15%</td><td data-page-node-id="6J3rZiksLIl3CVrfNhSJg6">鼓点密度、镜头切换是否干脆</td></tr>
+          <tr data-page-node-id="8odFn4YTHdnfKSZrGw2UIA"><td data-page-node-id="3D40KxNZ53AGy7Yg8EqowJ"><b data-page-node-id="tPPhRU04WQDtrPaGIhWY8I">传播潜力</b></td><td data-page-node-id="eAKeLZ9KUGOvKOYPD1pvAq">10%</td><td data-page-node-id="ruVY8E0TPcACblPA16hfs1">梗点 / 争议点 / 金句，能不能引发评论</td></tr>
+        </tbody>
+      </table>
+      <div class="note" data-page-node-id="aupzQVZ6Wr1IUZkthObERq"><b data-page-node-id="qun98YHbEifuF5RmYCdCcS">总分 = 情绪×0.30 + 悬念×0.25 + 视觉×0.20 + 节奏×0.15 + 传播×0.10。</b>短剧镜头极密，逐帧看画面不如先做<b data-page-node-id="wmKSg0tjLMfWFg165fVLYh">全量语音转写</b>——台词里的情绪爆点比画面更容易定位。</div>
+    </div>
+  </section>
+
+  <section id="flow" data-page-node-id="25geNJCCjj4MGLBVXY5pkt">
+    <div class="sec-h" data-page-node-id="RBDzwrWzbzyJqGLjl8dDX4"><span class="n" data-page-node-id="9YDS0WD4GIATRF9FKQAWFc">4</span><h2 data-page-node-id="Zs2zsSzWv3mPsomFwEeCt7">完整工作流</h2><span class="sub" data-page-node-id="8uYhU81gOHxhYvBHUTOusC">从原片到剪映工程</span></div>
+    <div class="panel" data-page-node-id="KFabqDfX0ijPOYzoun5hUx">
+      <div class="flowline" data-page-node-id="2Tsw99it65KBYk0kfbrwmJ">
+        <span class="flownode" data-page-node-id="bMOIfTBXjCyQER1j8DCHg0">① 批量预处理</span><span class="flowarr" data-page-node-id="COrCA759VOhLHMFAkq0VW7">→</span>
+        <span class="flownode" data-page-node-id="3tjO7JLr3jI9uBK99H9eZA">② 全角转写 + 爆点分析</span><span class="flowarr" data-page-node-id="yjzbtROEXAL2xug6vXuKwX">→</span>
+        <span class="flownode" data-page-node-id="ADO1mW74a3A6J5CzF6RZ4p">③ 剪辑方案</span><span class="flowarr" data-page-node-id="AWnzlmBUVcw1QdEWNllANZ">→</span>
+        <span class="flownode" data-page-node-id="of5IEg0FylVEO0wEgZgjSb">④ 渲染成片</span><span class="flowarr" data-page-node-id="9A2paiWY2aob4rfVroCSrD">→</span>
+        <span class="flownode" data-page-node-id="4AGmcLpK9YwGTEreBPD298">⑤ 剪映工程</span>
+      </div>
+      <div class="steps" style="margin-top:18px" data-page-node-id="oyIWvnQ2AWXA6NF0SSH4po">
+        <div class="step" data-page-node-id="FCDvroK89MFKFBED5RZC90"><div class="sn" data-page-node-id="Y4TAK4wBQWuONRTUa0mK5x">1</div><h4 data-page-node-id="lYsL8u71zpUysrfcd0HRuV">预处理</h4><p data-page-node-id="GQtTR5Yifm0UlA8HyYoOLf">原片按"第1集、第2集…"命名，批量抽关键帧 + 导出音频，生成时间码索引。</p></div>
+        <div class="step" data-page-node-id="zZE3FwBa0roV10EPQcsqr2"><div class="sn" data-page-node-id="4Gg1HaSqihoZUYoVnJH0JX">2</div><h4 data-page-node-id="WQNHpWBODTpqsmS4BfjKN5">分析爆点</h4><p data-page-node-id="dlCRstNtMBpfXdmR22EQIw">逐集语音转写拿台词，抽帧核对画面，按五维模型打分出带时间码的爆点清单 + 字幕金句。</p></div>
+        <div class="step" data-page-node-id="29rZmXr0d9uRgA7Jl8zAZ7"><div class="sn" data-page-node-id="Ui974rzOH0IGjCG8mJkBGj">3</div><h4 data-page-node-id="IvOVbT07jZ1RuOAzNLBBH8">定方案</h4><p data-page-node-id="FDcXGWMeaUoBfm3obFT0vi">推荐"整集连播"：一部剧拆上下两部，每部约 7 集整集拼接，剧情零跳跃，成片 15–17 分钟。</p></div>
+        <div class="step" data-page-node-id="TBNXsYmWvucTlhLIZxHzbb"><div class="sn" data-page-node-id="dZagj46erP6rlgt4c1a9zi">4</div><h4 data-page-node-id="ofQwF0bbMGeaUIWGFHR3lU">渲染</h4><p data-page-node-id="YY8kgj9XL8woR8qzdL8Vqz">按方案截取拼接，烧录金句字幕，输出 1080×1920 竖屏成片。</p></div>
+        <div class="step" data-page-node-id="EWxairUlZQBp4WndYekrsp"><div class="sn" data-page-node-id="FNz3IV70sCyEYysjuVaFSm">5</div><h4 data-page-node-id="P6fPHEamlIpwmrVdt8Mt0A">剪映工程</h4><p data-page-node-id="WfhwiZZUqhmHxkdGFLc8yB">生成每集独立片段 + 金句字幕轨的剪映草稿，逐段可编辑、自己加 BGM 导出。</p></div>
+      </div>
+      <div class="note" data-page-node-id="YyN9T5SegdSJEuROO31hSD"><b data-page-node-id="MsaCH6ATPr04SJeRpEnBBO">整集连播的关键：</b>前几集够 10 分钟就不硬塞后面集数；裁集尾"未完待续"前必须先抽帧确认——有的是金字定格可裁 2 秒，有的是叠影转场，裁了会断剧情。</div>
+    </div>
+  </section>
+
+  <section id="start" data-page-node-id="0vIv5yn9lidWc08E0PFkEE">
+    <div class="cta" data-page-node-id="DB1QmYU8XJnutZfE5JtFv7">
+      <div data-page-node-id="4qpbf6GpduFdFD3BApFBAu">
+        <h3 data-page-node-id="9a3jmYFxUZ9DljBTrVFF6k">想要能真正跑剪辑的完整工具？</h3>
+        <p data-page-node-id="1m2NbnuyW4OmFtvGLRHOg5">这个网页是轻量工具箱。完整能力（自动抽帧、转写、渲染、生成剪映工程）打包成了一个 WorkBuddy 技能包 <code data-page-node-id="u8jP152mIvoeqV9MiiRyZR">manju-erchuang</code>。装进 WorkBuddy 后，对话里说一句"做漫剧二创"即可调用整条流水线。</p>
+      </div>
+      <span class="tag" data-page-node-id="Z3WZarfQ8pDsdxbNCAO9vT">Skill · manju-erchuang</span>
+    </div>
+  </section>
+
+  <footer data-page-node-id="DOGxel2Aan9yMLFWwipuAs">
+    漫剧二创 · 爆点分析工具箱 · 在线轻量版<br data-page-node-id="2mweWDJhuZb4aTvHGO6mwI">
+    优先使用官方免费 / 授权素材，二创请加原创字幕观点与差异化处理，尊重版权。
+  </footer>
+
+</div>
+
+<div class="toast" id="toast" data-page-node-id="L7axjgejeZLqnVAQ3CikNc">已复制</div>
+
+<script>
+  const DIMS=[
+    {k:'emo',n:'情绪峰值',w:0.30},
+    {k:'sus',n:'悬念钩子',w:0.25},
+    {k:'vis',n:'视觉冲击',w:0.20},
+    {k:'rhy',n:'节奏卡点',w:0.15},
+    {k:'spr',n:'传播潜力',w:0.10}
+  ];
+  const PROMPTS=[
+    {n:'钩子标题生成', d:'你是短视频爆款标题专家，专做漫剧高燃混剪。请为以下10个爆点各生成3个标题候选。要求：竖屏风格、口语化、20字内、前8字抓人、制造"然后呢"悬念、用强情绪词（震惊/反转/燃爆/爽/绝了）、可用数字反问留白、不剧透结局。输出：序号|爆点概述|标题1（手法）|标题2|标题3。爆点列表：【粘贴10条爆点】'},
+    {n:'字幕金句生成（核心）', d:'你是短视频字幕文案专家，专做漫剧卡点混剪的字幕金句。不出解说，字幕是唯一文案层，必须短、狠、点题。为每个爆点生成2-3句候选，每句8-14字、一句一屏、配合鼓点弹出；不复述剧情而是点题，用数字和具体细节制造画面感，不剧透。输出：序号|爆点概述|字幕1|字幕2|字幕3。爆点列表：【粘贴10条爆点】'},
+    {n:'爆点五维打分', d:'按五维模型逐段打分（每维1-5分）：情绪峰值、悬念钩子、视觉冲击、节奏卡点、传播潜力。总分=情绪×0.30+悬念×0.25+视觉×0.20+节奏×0.15+传播×0.10。S级≥4.2、A级3.5-4.2、B级3.0-3.5、<3.0淘汰。输出表格：时间点|画面内容|五维分|总分|等级|建议用法。素材：【粘贴素材】'},
+    {n:'话题标签生成', d:'你是抖音/快手运营专家，为漫剧二创生成5-8个话题标签：1个大词（如#漫剧 #二次元）+3个精准词（剧名、角色、名场面）+2个热门词（当下平台热梗），按重要度排序。视频内容：【粘贴剧情概述】'},
+    {n:'差异化版本（矩阵防限流）', d:'同一部漫剧剪3个差异化版本发不同账号，全程无解说，靠BGM/字幕风格/配色区分。V1剧情向：叙事字幕、燃向BGM120-128BPM、红黑配色；V2燃点向：极简字幕只留金句、135+BPM、青橙配色；V3悬念向：开头留悬念字幕、悬疑前奏接drop、紫金配色。每版给出开头钩子字幕/字幕风格/BGM类型/配色/封面标题。'},
+    {n:'封面标题生成', d:'你是封面文案专家，为漫剧高燃混剪写封面标题。每条6-8字粗体大字风格，强冲击（用动词、数字、反差），不剧透、留悬念。每个爆点给3个候选。输出：序号|候选1|候选2|候选3。爆点列表：【粘贴10条爆点】'},
+    {n:'评论区互动引导', d:'你是短视频运营，为漫剧混剪写评论区引导：1条置顶评论（提问式，引导站队/讨论）+3条回复模板（针对"求剧名""太燃了""结局是什么"三类常见评论）。语气口语化、有梗、像真人。视频内容：【粘贴剧情概述】'}
+  ];
+
+  const $ = id => document.getElementById(id);
+  function toast(msg){
+    const t=$('toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(window.__tt); window.__tt=setTimeout(()=>t.classList.remove('show'),1700);
+  }
+  function copy(text){
+    const done=()=>toast('已复制');
+    if(navigator.clipboard&&navigator.clipboard.writeText)
+      navigator.clipboard.writeText(text).then(done).catch(()=>fb(text,done));
+    else fb(text,done);
+  }
+  function fb(text,done){
+    const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){ toast('复制失败，请手动选择'); }
+    document.body.removeChild(ta);
+  }
+
+  $('calcSliders').innerHTML = DIMS.map(d=>
+    '<div class="calc-row"><label>'+d.n+'</label>'+
+    '<input type="range" min="1" max="5" step="1" value="3" id="r_'+d.k+'">'+
+    '<span class="val" id="v_'+d.k+'">3</span><span class="wt">'+(d.w*100)+'%</span></div>').join('');
+  DIMS.forEach(d=>{ $('r_'+d.k).oninput=function(){ $('v_'+d.k).textContent=this.value; calc(); }; });
+  $('noNar').onchange=calc;
+
+  function calc(){
+    const noNar=$('noNar').checked;
+    let total=0;
+    DIMS.forEach(d=>{
+      let v=+$('r_'+d.k).value;
+      if(noNar && (d.k==='vis'||d.k==='rhy')) v=Math.min(5,v+0.5);
+      total+=v*d.w;
+    });
+    $('calcTotal').innerHTML=total.toFixed(2)+'<small> / 5.00</small>';
+    const g=$('calcGrade'),u=$('calcUsage'); g.className='grade';
+    if(total>=4.2){g.textContent='S 级';g.classList.add('gS');u.textContent='开头钩子 / 全片最高潮';}
+    else if(total>=3.5){g.textContent='A 级';g.classList.add('gA');u.textContent='高燃卡点连切主力';}
+    else if(total>=3.0){g.textContent='B 级';g.classList.add('gB');u.textContent='铺垫过渡段填充';}
+    else{g.textContent='淘汰';g.classList.add('gX');u.textContent='低于门槛，不入库';}
+  }
+
+  $('promptList').innerHTML = PROMPTS.map((p,i)=>
+    '<div class="prompt-item"><h4><span>'+p.n+'</span><button class="mini-btn" data-i="'+i+'">复制</button></h4>'+
+    '<p>'+p.d.replace(/</g,'&lt;')+'</p></div>').join('');
+  $('promptList').querySelectorAll('.mini-btn').forEach(b=>{
+    b.onclick=function(){ copy(PROMPTS[+this.getAttribute('data-i')].d); toast('提示词已复制'); };
+  });
+
+  calc();
+</script>
+</body>
+</html>

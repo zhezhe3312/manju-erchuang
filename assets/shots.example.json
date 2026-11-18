@@ -1,0 +1,20 @@
+{
+  "_说明": "剪辑方案示例。ep=集号对应 src/第N集.mp4；src_sec=原片内起点秒；duration=时长秒；subtitle=段头金句；tl_start/tl_end 由 render.py 自动计算可省略。",
+  "_策略": "推荐整集连播：一部剧拆上/下两部，每部7集整集拼接，剧情零跳跃。每部约15-17分钟。中间集尾'未完待续'如需裁掉可用 render_config.json 的 tail_cut。",
+  "shots": [
+    {
+      "no": 1,
+      "ep": 1,
+      "src_sec": 0,
+      "duration": 80,
+      "subtitle": "出佛堂第一天，我的外孙女没了"
+    },
+    {
+      "no": 2,
+      "ep": 2,
+      "src_sec": 0,
+      "duration": 78,
+      "subtitle": "二十板子，打在五岁孩子身上"
+    }
+  ]
+}
